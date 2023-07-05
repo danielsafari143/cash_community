@@ -1,19 +1,30 @@
 import { View , Text , StyleSheet, TextInput} from "react-native";
+import { useState } from "react";
 import Button from "../custome/Button";
+import { useDispatch } from "react-redux";
+import { setAccount } from "../../reduxSlice/signupSlice";
+
 const Add = ({navigation}) => {
+
+    const [name , setName] = useState();
+    const [types , setTypes] = useState();
+    const dispatch = useDispatch();
     return(
         <View style={style.bod}>
                 <Text style={{paddingLeft:20 , paddingBottom:10 , color:'#FCFCFC' , fontWeight:'100' , fontSize:20 }}>Balance</Text>
                 <Text style={{paddingLeft:20, paddingBottom:10  , fontSize:50 , color:'white' , fontWeight:'900'}}>$0.00</Text>
             <View style={style.bode}>
                 <View style={style.vi}>
-                    <TextInput style={style.inpute} textContentType="name" placeholder="Name" />
-                    <TextInput style={style.inpute} textContentType="name" placeholder="Account Type" />
+                    <TextInput style={style.inpute} textContentType="name" onChangeText={(text) => setName(text)} placeholder="Name" />
+                    <TextInput style={style.inpute} textContentType="name" onChangeText={(text) => setTypes(text)} placeholder="Account Type" />
                 </View>
                 <Button
                     title='Continue'
                     style={styleb}
-                    onPress={() => {navigation.navigate('Ok')}}
+                    onPress={() => {
+                        dispatch(setAccount({name , types}));
+                        navigation.navigate('Ok');
+                    }}
                 />
             </View>
         </View>

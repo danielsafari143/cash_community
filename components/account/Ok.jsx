@@ -14,7 +14,7 @@ const Ok = () => {
     }
 
     return (
-        <Animated.View style={{flex:1 , justifyContent:'center' , alignItems:'center' , gap:20 , opacity:animate}}>
+        <Animated.View style={{flex:1 , justifyContent:'center' , alignItems:'center', backgroundColor:'white' , gap:20 , opacity:animate}}>
             <Image style={{width:50, height:50}} source={image}/>
             <Text style={{color:"#212325" , fontSize:16}}>You are set!</Text>
             {onStart()}
