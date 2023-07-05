@@ -12,6 +12,7 @@ import Add from './components/account/Add';
 import Ok from './components/account/Ok';
 import { Provider } from 'react-redux';
 import store from './redux/store';
+import Home from './components/home/Home';
 
 export default function App() {
   const Stack = createNativeStackNavigator();
@@ -77,6 +78,14 @@ export default function App() {
                 headerTitleAlign:'center',
                 headerTitleStyle:{fontWeight:'800'},
                 headerBackVisible:false ,
+              }}
+            />
+            <Stack.Screen name='Home' component={Home} 
+              options={{
+                title:'Home',
+                headerShadowVisible:false,
+                headerTitleAlign:'center',
+                headerTitleStyle:{fontWeight:'800'},
               }}
             />
           </Stack.Navigator>

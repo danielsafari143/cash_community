@@ -2,7 +2,7 @@ import { Image , View  , Text , Animated} from "react-native";
 import { useRef } from "react";
 import image from '../../assets/Vector.png';
 
-const Ok = () => {
+const Ok = ({navigation}) => {
     const animate = useRef(new Animated.Value(0)).current;
 
     const onStart = () => {
@@ -10,7 +10,9 @@ const Ok = () => {
             toValue:1,
             duration:3000,
             useNativeDriver:true
-        }).start()
+        }).start(() => {
+            navigation.navigate('Home');
+        })
     }
 
     return (
