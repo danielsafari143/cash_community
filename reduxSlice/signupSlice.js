@@ -36,14 +36,25 @@ export const createUser = createAsyncThunk('create/createUser' , async (arg) => 
     } catch (error) {
         console.log(error)
     }
-})
+});
 
-export const userLogin = createAsyncThunk('user/userLogin' , async (arg) => {
+export const getAccount = createAsyncThunk('get/getAccount' , async (arg) => {
+    try {
+        const data = await axios.get(`${api}user/accounts/${arg}`,
+        {headers: {"Content-Type": "application/json"}},)
+        return data.data;
+    } catch (error) {
+        console.log(error)
+    }
+});
+
+export const userLogin = createAsyncThunk('user/userLogin' , async (arg , thunkAPI) => {
     try {
         const {email , password} = arg;
         const data = await axios.post(`${api}users/login`,
         JSON.stringify({email : email , password : password}),
         {headers: {"Content-Type": "application/json"}},)
+        thunkAPI.dispatch(getAccount(data.id))
         return data.data;
     } catch (error) {
         console.log(error)
@@ -85,6 +96,9 @@ const accountSlice = createSlice({
             state.user.info.push({id , name , jwt})       
            }    
         })
+        builder.addCase(getAccount.fulfilled , (state , action) => {
+            state.accountInfo = action.payload.accounts;
+         })
     }
 });
 

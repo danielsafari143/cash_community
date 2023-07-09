@@ -22,7 +22,12 @@ const SignIn = ({navigation}) => {
     });
 
     if(data.user.isLogin){
-        navigation.navigate('Account')
+        if(identity.accountInfo.length === 0) {
+            navigation.navigate('Account');
+        }
+        else {
+            navigation.navigate('Home');
+        }
     }
 
     return (

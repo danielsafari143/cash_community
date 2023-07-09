@@ -10,7 +10,7 @@ const Welcome = ({navigation}) => {
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(fetchData());
-    })
+    } , [])
     
     if(data){
         navigation.navigate('presign')

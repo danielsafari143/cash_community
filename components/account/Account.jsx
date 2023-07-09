@@ -1,12 +1,13 @@
 import { View , Text , StyleSheet } from "react-native";
-import { useState } from "react";
+import { useEffect } from "react";
 import Button from "../custome/Button";
-import { useSelector } from "react-redux";
+import { useSelector , useDispatch} from "react-redux";
+import { getAccount } from "../../reduxSlice/signupSlice";
 
 const Account = ({navigation}) => {
     const identity = useSelector(state => state.accountRaducer);
     const data = identity.user.info[0];
-    
+
     return (
     <View style = {style.bod}>
         <Text style={{fontSize : 40 , textAlign:'left' ,  fontWeight:'700' , alignSelf:'flex-start' , paddingLeft:20 }} >Let’s setup your account!</Text>
