@@ -4,13 +4,13 @@ import Button from "../custome/Button";
 import { useSelector } from "react-redux";
 
 const Account = ({navigation}) => {
-    const identity = useSelector(state => state);
-    const data = identity.accountRaducer;
+    const identity = useSelector(state => state.accountRaducer);
+    const data = identity.user.info[0];
     
     return (
     <View style = {style.bod}>
         <Text style={{fontSize : 40 , textAlign:'left' ,  fontWeight:'700' , alignSelf:'flex-start' , paddingLeft:20 }} >Let’s setup your account!</Text>
-        <Text style={{fontSize : 14 , textAlign:'left' , marginBottom:10 , fontWeight:'500' , alignSelf:'flex-start' , paddingLeft:20 , color:'#292B2D'}} >{data.account.name} your account can be your bank, credit card or 
+        <Text style={{fontSize : 14 , textAlign:'left' , marginBottom:10 , fontWeight:'500' , alignSelf:'flex-start' , paddingLeft:20 , color:'#292B2D'}} >{data.name} your account can be your bank, credit card or 
 your wallet.</Text>
         <View style={style.check}>
             <View style={{display:'flex' , flexDirection:'column' , gap:15 , marginTop:10 , justifyContent:'center' , alignItems:'center'}}>

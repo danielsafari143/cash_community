@@ -1,15 +1,17 @@
 import { View , Text , StyleSheet , TextInput} from "react-native";
 import { useState , useEffect } from "react";
 import Button from "./Button";
-import { useSelector} from "react-redux";
+import { useSelector , useDispatch} from "react-redux";
+import { userLogin } from "../../reduxSlice/signupSlice";
 
 const SignIn = ({navigation}) => {
+    const dispatch = useDispatch();
     const identity = useSelector(state => state.accountRaducer);
     const data =identity;
     const check = data.sign
 
-    const [name , setName ] = useState();
-    const [password , setPassword ] = useState();
+    const [email , setEmail] = useState(data.account.email.length > 1 ? data.account.email : '');
+    const [password , setPassword ] = useState(data.account.password.length > 1 ? data.account.password : '');
    
     useEffect(() => {
        if(check){
@@ -19,17 +21,21 @@ const SignIn = ({navigation}) => {
        }
     });
 
+    if(data.user.isLogin){
+        navigation.navigate('Account')
+    }
+
     return (
     <View style = {style.bod}>
         <View style={style.view}>
                 <TextInput 
-                    textContentType="emailAdress" 
-                    value={data.account.name.length > 1 ? data.account.name : name}
+                    textContentType="emailAddress" 
+                    value={email}
                     style = {style.inpute} placeholder="Email"
-                    onChangeText={(text) => setName(text)}
+                    onChangeText={(text) => setEmail(text)}
                 />
 
-                <TextInput textContentType="password" value={data.account.password.length > 1 ? data.account.password : password} 
+                <TextInput textContentType="password" value={password} 
                 style = {style.inpute} placeholder="Password"
                 onChangeText={(text) => setPassword(text)}
             />
@@ -39,7 +45,9 @@ const SignIn = ({navigation}) => {
                 <Button
                     title='Login'
                     style={styleb}
-                    onPress={() => navigation.navigate('Account')}
+                    onPress={() => {
+                        dispatch(userLogin({email , password}))
+                    }}
                 />
                  <Text style={{color: '#7E82D9'}} onPress={() => navigation.navigate('Forgot')}> Forgot your password?</Text>
                 <Text style={{fontWeight:'900' , color:'#91919F' , marginTop : 15}}>Don’t have an account yet ? <Text style={{color: '#7E82D9'}} onPress={() => navigation.navigate('SignUp')}> Sign UP</Text></Text>

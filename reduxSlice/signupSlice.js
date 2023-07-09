@@ -7,6 +7,9 @@ const initialState = {
         email:'',
         password:''
     },
+    user : {
+        isLogin : false,
+        info : []},
     accountInfo : [],
     isLoading : false,
     sign : false
@@ -26,10 +29,22 @@ export const fetchData = createAsyncThunk('data/fetchData' , async () => {
 export const createUser = createAsyncThunk('create/createUser' , async (arg) => {
     try {
         const {name , email , password} = arg;
-        const data = await axios.post('https://cash-community.onrender.com/users/register',
+        const data = await axios.post(`${api}users/register`,
         JSON.stringify({name : name , email : email , password : password}),
         {headers: {"Content-Type": "application/json"}},)
         return data.status;
+    } catch (error) {
+        console.log(error)
+    }
+})
+
+export const userLogin = createAsyncThunk('user/userLogin' , async (arg) => {
+    try {
+        const {email , password} = arg;
+        const data = await axios.post(`${api}users/login`,
+        JSON.stringify({email : email , password : password}),
+        {headers: {"Content-Type": "application/json"}},)
+        return data.data;
     } catch (error) {
         console.log(error)
     }
@@ -62,6 +77,13 @@ const accountSlice = createSlice({
           if(action.payload === 200){
             state.sign = true
           };
+        })
+        builder.addCase(userLogin.fulfilled , (state , action) => {
+           if(action.payload){
+            state.user.isLogin = true; 
+            const {id , name , jwt} = action.payload;
+            state.user.info.push({id , name , jwt})       
+           }    
         })
     }
 });

@@ -33,8 +33,7 @@ export default function App() {
               headerBackVisible:false ,
               headerTitle:'',
               headerStyle:{backgroundColor : 'white'}
-            }
-            } />
+            }}/>
             <Stack.Screen name='SignUp' component={SignUp} 
               options={{
                 title:'Sign Up',
