@@ -1,7 +1,21 @@
 import {Text , View ,ActivityIndicator  , Image} from "react-native";
+import { useEffect } from "react";
+import { useDispatch , useSelector} from "react-redux";
+import { fetchData } from "../reduxSlice/signupSlice";
+
 import money from '../assets/money.png'
+
 const Welcome = ({navigation}) => {
-    navigation.navigate('presign')
+    const data = useSelector((state) => state.accountRaducer.isLoading)
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(fetchData());
+    })
+    
+    if(data){
+        navigation.navigate('presign')
+    }
+
     return (
     <View style={{backgroundColor:'white' , flex : 1 , justifyContent:'center', flexDirection:'column' , alignItems:'center' , padding:50}}>
         <View style={{ flex : 1 , justifyContent:'center' , alignItems:'center' , gap:20}}>

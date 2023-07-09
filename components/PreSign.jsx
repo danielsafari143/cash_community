@@ -1,8 +1,17 @@
 import money from '../assets/money.png';
-import {View , Image , Text , StyleSheet} from 'react-native';
+import {View , Image , Text , StyleSheet , BackHandler} from 'react-native';
 import Button from './custome/Button';
+import { useEffect } from 'react';
 
 const PreSign = ({navigation}) => {
+    
+    useEffect(() => {
+        navigation.addListener('beforeRemove' , (e) => {
+            BackHandler.exitApp();
+            e.preventDefault();
+        })
+    });
+
     return (
         <View style={{flex:1 , flexDirection:'column' , alignItems:'center' , justifyContent:'center' , padding:40 , gap:20 , backgroundColor:'white'}}>
             <View style={{flex:1 , flexDirection:'column' , alignItems:'center' , justifyContent:'center'}}>

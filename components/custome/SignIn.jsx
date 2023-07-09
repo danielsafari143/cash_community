@@ -4,23 +4,32 @@ import Button from "./Button";
 import { useSelector} from "react-redux";
 
 const SignIn = ({navigation}) => {
-    const identity = useSelector(state => state);
-    const data =identity.accountRaducer;
+    const identity = useSelector(state => state.accountRaducer);
+    const data =identity;
+    const check = data.sign
 
     const [name , setName ] = useState();
     const [password , setPassword ] = useState();
+   
+    useEffect(() => {
+       if(check){
+            navigation.addListener('beforeRemove' , (e) => {
+                e.preventDefault();
+            });
+       }
+    });
 
     return (
     <View style = {style.bod}>
         <View style={style.view}>
                 <TextInput 
                     textContentType="emailAdress" 
-                    value={data.account ? data.account.name : name}
+                    value={data.account.name.length > 1 ? data.account.name : name}
                     style = {style.inpute} placeholder="Email"
                     onChangeText={(text) => setName(text)}
                 />
 
-                <TextInput textContentType="password" value={data.account ? data.account.password : password} 
+                <TextInput textContentType="password" value={data.account.password.length > 1 ? data.account.password : password} 
                 style = {style.inpute} placeholder="Password"
                 onChangeText={(text) => setPassword(text)}
             />

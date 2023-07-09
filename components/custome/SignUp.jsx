@@ -1,31 +1,57 @@
-import { useDispatch } from "react-redux";
+import { useDispatch , useSelector} from "react-redux";
 import { View , Text , StyleSheet , TextInput , Linking} from "react-native";
 import { useState } from "react";
 import { CheckBox } from "react-native-btr";
 import Button from "./Button";
 import google from '../../assets/flat-color-icons_google.png';
-import { signup } from "../../reduxSlice/signupSlice";
+import { createUser, signup } from "../../reduxSlice/signupSlice";
 
 const SignUp = ({navigation}) => {
-    const [name , setName] = useState();
-    const [email , setEmail] = useState();
-    const [password , setPassword] = useState();
+    const data = useSelector((state) => state.accountRaducer.sign)
+    const userInfo = useSelector((state) => state.accountRaducer.account)
+    const [name , setName] = useState(userInfo.name);
+    const [email , setEmail] = useState(userInfo.email);
+    const [password , setPassword] = useState(userInfo.password);
+    const [check , setCheck ] = useState(true);
+    const [condition , setCondition ] = useState(false);
 
     const dispatch = useDispatch();
 
     return (
     <View style = {style.bod}>
         <View style={style.view}>
-            <TextInput textContentType="familyName" onChangeText={(value) => setName(value)}  style = {style.inpute} placeholder="Name"/>
-            <TextInput textContentType="emailAdress" onChangeText={(value) => setEmail(value)}  style = {style.inpute} placeholder="Email"/>
-            <TextInput textContentType="password" onChangeText={(value) => setPassword(value)}  style = {style.inpute} placeholder="Password"/>
+            <TextInput textContentType="familyName" 
+                onChangeText={(value) => {
+                setName(value),
+                setCheck(true);
+               }}  
+               style = {check ? style.inpute : style.inputeError}
+               placeholder="Name"
+            />
+            <TextInput textContentType="emailAddress" 
+                onChangeText={(value) => {
+                    setEmail(value);
+                    setCheck(true);
+                }}  
+                style = {check ? style.inpute : style.inputeError} 
+                placeholder="Email"
+            />
+            <TextInput textContentType="password" onChangeText={(value) => {
+                setPassword(value);
+                setCheck(true);
+                }}  
+                style = {check ? style.inpute : style.inputeError} 
+                placeholder="Password"
+            />
         </View>
         <View style={style.check}>
             <View>
                 <View style={style.secondView} > 
                     <CheckBox
-                        checked={true}
+                        checked={condition}
                         color="white"
+                        onPress={() => setCondition((e) => !e)}
+                        bgc = {condition ? "#7E82D9" : 'red'}
                     /> 
                     <Text>By signing up, you agree to the <Text style={{color: '#7E82D9'}} onPress={() => Linking.openURL('http://google.com')}> Terms of Service and Privacy Policy</Text></Text>
                 </View> 
@@ -36,10 +62,15 @@ const SignUp = ({navigation}) => {
                     title='Sign Up'
                     style={styleb}
                     onPress={() => {
-                        if(name !== undefined && password !== undefined && email !== undefined){
-                            dispatch(signup({name , password , email}))
-                            navigation.navigate('SignIn')
-                        }
+                            const idnat = {name , password , email};
+                            dispatch(createUser(idnat))
+                            if(data) {
+                                if(condition) {
+                                    dispatch(signup({name , password , email}))
+                                    return navigation.navigate('SignIn')
+                                }
+                            }
+                            setCheck(false)
                     }}
                 />
                  <Text style={{fontWeight:'900' , color:'#91919F'}}>Or with</Text>
@@ -87,6 +118,15 @@ const style = StyleSheet.create({
     inpute : {
         borderStyle:'solid',
         borderColor:'#F1F1FA',
+        borderWidth:1,
+        color:'#91919F',
+        padding:10,
+        borderRadius:5,
+        width:300
+    },
+    inputeError : {
+        borderStyle:'solid',
+        borderColor:'red',
         borderWidth:1,
         color:'#91919F',
         padding:10,

@@ -19,8 +19,13 @@ export default function App() {
   return(
     <Provider store={store}>
         <NavigationContainer>
-          <Stack.Navigator initialRouteName="welcom">
-            <Stack.Screen name='welcome' component={Welcome}/>
+          <Stack.Navigator initialRouteName="welcom" >
+            <Stack.Screen name='welcome' component={Welcome} options={{
+              headerShadowVisible:false , 
+              headerBackVisible:false ,
+              headerTitle:'',
+              headerStyle:{backgroundColor : 'white'}
+            }}/>
             <Stack.Screen name='anime' component={Anim} options={{headerShown:false}}/>
             <Stack.Screen name='presign' 
               component={PreSign} options={{
